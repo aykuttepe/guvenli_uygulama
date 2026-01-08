@@ -1,0 +1,76 @@
+{
+  "name": "guvenli_uygulama",
+  "version": "2.15.0",
+  "description": "Güvenli Windows Uygulama Yükleyicisi",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "release": "electron-builder --publish always",
+    "release:draft": "electron-builder --publish onTagOrDraft",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "winget",
+    "installer",
+    "windows",
+    "electron"
+  ],
+  "author": "Antigravity",
+  "license": "ISC",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aykuttepe/guvenli_uygulama.git"
+  },
+  "devDependencies": {
+    "electron": "^39.2.4",
+    "electron-builder": "23.6.0"
+  },
+  "build": {
+    "appId": "com.guvenli.yukleyici",
+    "productName": "Güvenli Yükleyici",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "logger.js",
+      "package.json"
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "aykuttepe",
+      "repo": "guvenli_uygulama",
+      "releaseType": "release"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.png",
+      "publisherName": "Antigravity"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "include": "installer.nsh"
+    },
+    "msi": {
+      "oneClick": false,
+      "createDesktopShortcut": true
+    }
+  },
+  "dependencies": {
+    "@sentry/electron": "^7.5.0",
+    "electron-updater": "^6.7.3"
+  }
+}

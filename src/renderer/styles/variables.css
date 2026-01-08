@@ -1,0 +1,54 @@
+/**
+ * CSS Variables
+ * Design tokens and theme variables
+ */
+
+:root {
+    /* Colors */
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --bg-card: #1a1a1a;
+    --bg-input: #333;
+
+    /* Text Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --text-muted: #666;
+
+    /* Accent Colors */
+    --accent-color: #4ade80;
+    --accent-hover: #22c55e;
+    --accent-blue: #2563eb;
+    --accent-blue-hover: #1d4ed8;
+    --accent-red: #f87171;
+    --accent-orange: #fb923c;
+    --accent-purple: #a855f7;
+
+    /* Borders */
+    --border-color: #333;
+    --border-radius: 12px;
+    --border-radius-sm: 8px;
+    --border-radius-lg: 16px;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+
+    /* Layout */
+    --sidebar-width: 280px;
+    --header-height: 80px;
+    --nav-height: 50px;
+}

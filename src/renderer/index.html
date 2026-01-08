@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Güvenli Uygulama Yükleyici</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="titlebar">
+        <div class="logo">
+            <img src="../../assets/icon.png" alt="Logo" style="height: 24px; width: 24px;">
+            Güvenli Yükleyici
+        </div>
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <input type="text" id="searchInput" placeholder="Uygulama ara (örn: Chrome, Spotify)...">
+                <span id="clearSearchIcon" class="clear-icon hidden">×</span>
+            </div>
+            <button id="searchBtn">Ara</button>
+            <button id="clearBtn" class="secondary-btn">Temizle</button>
+            <button id="upgradeBtn" class="upgrade-btn" title="Tüm uygulamaları güncelle">🚀 Güncelle</button>
+
+            <div class="menu-wrapper">
+                <button id="menuBtn" class="icon-btn" title="Menü">☰</button>
+                <div id="mainMenu" class="dropdown-menu hidden">
+                    <div class="menu-item" id="menuExportBtn" data-i18n="exportBtn">💾 Listeyi Kaydet</div>
+                    <div class="menu-item" id="menuImportBtn" data-i18n="importBtn">📥 Listeyi Yükle</div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-item" id="menuSettingsBtn" data-i18n="tabSettings">⚙️ Ayarlar</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <main class="content">
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-target="search">🔍 Uygulama Ara</button>
+                <button class="nav-tab" data-target="updates">🔄 Güncellemeler</button>
+                <button class="nav-tab" data-target="installed">📂 Yüklü Uygulamalar</button>
+                <button class="nav-tab" data-target="post-install">✨ Kurulum Sonrası</button>
+                <button class="nav-tab" data-target="drivers">🔧 Sürücüler</button>
+                <button id="refreshPostInstallBtn" class="nav-icon-btn hidden" title="Listeyi Yenile">🔄</button>
+            </div>
+
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+                <p>İşlem yapılıyor...</p>
+            </div>
+
+            <!-- Search View -->
+            <div id="resultsArea" class="results-grid active-view">
+                <!-- Results will be populated here -->
+                <div class="placeholder-message">
+                    <h3 data-i18n="welcomeTitle">Hoş Geldiniz!</h3>
+                    <p data-i18n="welcomeText">Aramak istediğiniz uygulamanın adını yukarı yazın veya popüler
+                        uygulamalardan seçin.</p>
+
+                    <div class="quick-tags">
+                        <button class="tag" data-query="Browser">Tarayıcılar</button>
+                        <button class="tag" data-query="Developer">Geliştirici</button>
+                        <button class="tag" data-query="Music">Müzik</button>
+                        <button class="tag" data-query="Video">Video</button>
+                        <button class="tag" data-query="Communication">İletişim</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Updates View -->
+            <div id="updatesArea" class="updates-view hidden-view">
+                <div class="updates-header">
+                    <div class="updates-title-section">
+                        <h3>🔄 <span data-i18n="updatesTitle">Güncellenebilir Uygulamalar</span></h3>
+                        <p class="updates-subtitle" data-i18n="updatesSubtitle">Aşağıda güncelleme bekleyen uygulamalar
+                            listelenmiştir. Güncellemek istediklerinizi seçin.</p>
+                    </div>
+                    <div class="updates-actions">
+                        <button id="refreshUpdatesBtn" class="secondary-btn" title="Listeyi Yenile">🔄 Yenile</button>
+                        <button id="selectAllUpdatesBtn" class="secondary-btn">☑️ Tümünü Seç</button>
+                        <button id="upgradeSelectedBtn" class="upgrade-btn" disabled>🚀 Seçilenleri Güncelle</button>
+                    </div>
+                </div>
+                <div class="updates-summary" id="updatesSummary">
+                    <!-- Summary will be populated here -->
+                </div>
+                <div id="updatesGrid" class="results-grid">
+                    <!-- Upgradable apps will be populated here -->
+                </div>
+            </div>
+
+            <!-- Installed Apps View -->
+            <div id="installedAppsArea" class="results-grid hidden-view">
+                <!-- Installed apps will be populated here -->
+            </div>
+            <!-- Post Install View -->
+            <div id="postInstallArea" class="results-grid hidden-view">
+                <div class="placeholder-message" style="grid-column: 1 / -1; text-align: left;">
+                    <h3 data-i18n="postInstallTitle">✨ Kurulum Sonrası Önerilenler</h3>
+                    <p data-i18n="postInstallText">Yeni bir bilgisayar kurulumundan sonra en çok ihtiyaç duyulan popüler
+                        uygulamalar:</p>
+                </div>
+                <!-- Popular apps will be injected here by JS -->
+            </div>
+            <!-- Drivers View -->
+            <div id="driversArea" class="results-grid hidden-view">
+                <div class="placeholder-message" style="grid-column: 1 / -1; text-align: left;">
+                    <h3 data-i18n="driversTitle">🔧 Sürücü Güncellemeleri</h3>
+                    <p data-i18n="driversText">Sisteminiz için önerilen sürücü güncelleme yöntemleri:</p>
+
+                    <div id="systemInfo"
+                        style="margin: 20px 0; padding: 15px; background: #2d2d2d; border-radius: 8px; font-family: monospace;">
+                        <div data-i18n="loading">İşlem yapılıyor...</div>
+                    </div>
+
+                    <div class="driver-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button id="btnWindowsUpdate" class="add-btn" style="background: #0078d4;">
+                            <span style="margin-right: 8px;">🪟</span> <span data-i18n="btnWindowsUpdate">Windows
+                                Update'i Aç</span>
+                        </button>
+                    </div>
+
+                    <div id="manufacturerTools" style="margin-top: 20px;">
+                        <!-- Manufacturer tools will be injected here -->
+                    </div>
+                </div>
+            </div>
+            <!-- Settings View -->
+            <div id="settingsArea" class="settings-view hidden-view" style="padding: 20px;">
+                <div class="app-card" style="max-width: 500px; margin: 0 auto; position: relative;">
+                    <button id="closeSettingsBtn" class="close-settings-btn" title="Kapat">×</button>
+                    <h3 style="margin-bottom: 15px;" data-i18n="settingsTitle">Ayarlar</h3>
+
+                    <div class="setting-item" style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-secondary);"
+                            data-i18n="languageLabel">Dil / Language</label>
+                        <select id="languageSelect"
+                            style="width: 100%; padding: 10px; background: #333; border: 1px solid #444; color: white; border-radius: 6px;">
+                            <option value="tr">Türkçe</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+
+                    <!-- Notification Settings -->
+                    <div class="setting-item" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px;">
+                        <h4 style="margin-bottom: 15px; color: var(--text-secondary);">🔔 Bildirim Ayarları</h4>
+
+                        <div
+                            style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                            <div>
+                                <label style="color: white; font-weight: 500;">Günlük Güncelleme Taraması</label>
+                                <p style="font-size: 0.8rem; color: #666; margin-top: 3px;">Uygulama açıldığında
+                                    güncellemeleri kontrol et</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notificationEnabledToggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button id="testNotificationBtn" class="secondary-btn" style="flex: 1;">
+                                🔔 Test Bildirimi
+                            </button>
+                            <button id="forceScanBtn" class="secondary-btn" style="flex: 1;">
+                                🔍 Şimdi Tara
+                            </button>
+                        </div>
+
+                        <div id="lastScanInfo"
+                            style="font-size: 0.8rem; color: #666; margin-top: 10px; text-align: center;">
+                            <!-- Last scan info will be shown here -->
+                        </div>
+                    </div>
+
+                    <!-- App Update Section -->
+                    <div class="setting-item" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px;">
+                        <h4 style="margin-bottom: 15px; color: var(--text-secondary);">🔄 Uygulama Güncelleme</h4>
+
+                        <div id="appVersionInfo"
+                            style="margin-bottom: 15px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="color: #888;">Mevcut Sürüm:</span>
+                                <span id="currentAppVersion"
+                                    style="color: #4ade80; font-family: monospace;">v2.14.0</span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 10px;">
+                            <button id="checkAppUpdateBtn" class="secondary-btn" style="flex: 1;">
+                                🔍 Güncelleme Kontrol Et
+                            </button>
+                            <button id="manualDownloadBtn" class="secondary-btn" style="flex: 1;">
+                                📥 Manuel İndir
+                            </button>
+                        </div>
+
+                        <div id="updateStatusInfo"
+                            style="font-size: 0.8rem; color: #666; margin-top: 10px; text-align: center;">
+                            <!-- Update status will be shown here -->
+                        </div>
+                    </div>
+
+                    <div class="setting-item" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px;">
+                        <h4 style="margin-bottom: 10px; color: var(--text-secondary);">Geliştirici Araçları</h4>
+                        <button id="openLogsBtn" class="secondary-btn" style="width: 100%;">📄 Log Dosyasını Aç</button>
+                        <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">Hataları ve uygulama kayıtlarını
+                            görüntüler.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="install-queue" id="installQueue">
+            <div class="queue-header">
+                <h3>Yükleme Listesi</h3>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span id="queueCount">0</span>
+                    <button id="clearQueueBtn" class="icon-btn-small" title="Listeyi Temizle"
+                        style="padding: 2px 6px; font-size: 0.9rem;">🗑️</button>
+                </div>
+            </div>
+            <div id="queueList" class="queue-list">
+                <!-- Selected apps go here -->
+            </div>
+            <button id="installAllBtn" class="install-all-btn" disabled>Seçilenleri Yükle</button>
+        </aside>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
