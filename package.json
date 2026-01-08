@@ -1,6 +1,6 @@
 {
   "name": "guvenli_uygulama",
-  "version": "2.15.0",
+  "version": "2.16.0",
   "description": "Güvenli Windows Uygulama Yükleyicisi",
   "main": "src/main/main.js",
   "scripts": {
