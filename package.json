@@ -52,10 +52,29 @@
           "arch": [
             "x64"
           ]
+        },
+        {
+          "target": "appx",
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "assets/icon.png",
-      "publisherName": "Antigravity"
+      "publisherName": "CN=Aykut Tepe"
+    },
+    "appx": {
+      "applicationId": "GuvenliYukleyici",
+      "identityName": "GuvenliYukleyici",
+      "publisher": "CN=Aykut Tepe",
+      "publisherDisplayName": "Aykut Tepe",
+      "displayName": "Güvenli Yükleyici",
+      "backgroundColor": "#1976D2",
+      "showNameOnTiles": true,
+      "languages": [
+        "tr-TR",
+        "en-US"
+      ]
     },
     "nsis": {
       "oneClick": false,
