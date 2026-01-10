@@ -9,21 +9,21 @@ const logger = require('../../logger');
 const wingetService = require('./services/winget');
 const notificationService = require('./services/notification');
 const updaterService = require('./services/updater');
-const sentryService = require('./services/sentry');
+const glitchTipService = require('./services/sentry');
 const ipcHandlers = require('./ipc/handlers');
 
-// Initialize Sentry FIRST (before any errors can occur)
-sentryService.initialize();
+// Initialize GlitchTip FIRST (before any errors can occur)
+glitchTipService.initialize();
 
 // Global Error Handling
 process.on('uncaughtException', (error) => {
     logger.error('Uncaught Exception', error);
-    sentryService.captureError(error, { tags: { type: 'uncaughtException' } });
+    glitchTipService.captureError(error, { tags: { type: 'uncaughtException' } });
 });
 
 process.on('unhandledRejection', (reason, promise) => {
     logger.error('Unhandled Rejection', reason);
-    sentryService.captureError(reason, { tags: { type: 'unhandledRejection' } });
+    glitchTipService.captureError(reason, { tags: { type: 'unhandledRejection' } });
 });
 
 // Main window reference
@@ -272,6 +272,20 @@ app.whenReady().then(async () => {
 
     // Initialize app auto-updater
     updaterService.initialize();
+
+    // TEST: GlitchTip test error (remove after testing)
+    setTimeout(() => {
+        logger.info('Sending test error to GlitchTip...');
+        try {
+            throw new Error('GlitchTip test hatası - Bu mesajı görüyorsan çalışıyor! 🎉');
+        } catch (error) {
+            glitchTipService.captureError(error, {
+                tags: { test: 'glitchtip-integration' },
+                extra: { timestamp: new Date().toISOString() }
+            });
+            logger.info('Test error sent to GlitchTip');
+        }
+    }, 10000); // 10 saniye sonra gönder
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {

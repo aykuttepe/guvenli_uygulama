@@ -54,18 +54,18 @@ class Logger {
     error(message, details) {
         this.log('ERROR', message, details);
 
-        // Send to Sentry if available
+        // Send to GlitchTip if available
         try {
-            const sentryService = require('./src/main/services/sentry');
-            if (sentryService.isEnabled()) {
+            const glitchTipService = require('./src/main/services/sentry');
+            if (glitchTipService.isEnabled()) {
                 if (details instanceof Error) {
-                    sentryService.captureError(details, { extra: { message } });
+                    glitchTipService.captureError(details, { extra: { message } });
                 } else {
-                    sentryService.captureMessage(message, 'error', { extra: { details } });
+                    glitchTipService.captureMessage(message, 'error', { extra: { details } });
                 }
             }
         } catch (e) {
-            // Sentry not available or not in main process
+            // GlitchTip not available or not in main process
         }
     }
 
