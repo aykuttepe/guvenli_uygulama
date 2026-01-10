@@ -273,20 +273,6 @@ app.whenReady().then(async () => {
     // Initialize app auto-updater
     updaterService.initialize();
 
-    // TEST: GlitchTip test error (remove after testing)
-    setTimeout(() => {
-        logger.info('Sending test error to GlitchTip...');
-        try {
-            throw new Error('GlitchTip test hatası - Bu mesajı görüyorsan çalışıyor! 🎉');
-        } catch (error) {
-            glitchTipService.captureError(error, {
-                tags: { test: 'glitchtip-integration' },
-                extra: { timestamp: new Date().toISOString() }
-            });
-            logger.info('Test error sent to GlitchTip');
-        }
-    }, 10000); // 10 saniye sonra gönder
-
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
             createWindow();
