@@ -61,13 +61,13 @@
         }
       ],
       "icon": "assets/icon.png",
-      "publisherName": "CN=Aykut Tepe"
+      "publisherName": "CN=716AD3A6-3CB8-49AE-8D45-B3873C4A2D32"
     },
     "appx": {
-      "applicationId": "GuvenliYukleyici",
-      "identityName": "GuvenliYukleyici",
-      "publisher": "CN=Aykut Tepe",
-      "publisherDisplayName": "Aykut Tepe",
+      "applicationId": "GvenliYkleyici",
+      "identityName": "splendor.GvenliYkleyici",
+      "publisher": "CN=716AD3A6-3CB8-49AE-8D45-B3873C4A2D32",
+      "publisherDisplayName": "splendor",
       "displayName": "Güvenli Yükleyici",
       "backgroundColor": "#1976D2",
       "showNameOnTiles": true,
