@@ -9,9 +9,9 @@ const { app } = require('electron');
 
 // GlitchTip DSN - Error tracking configuration
 // IMPORTANT: Replace this with your own GlitchTip DSN after installation
-// Format: http://[key]@your-server-ip:8000/[project-id]
+// Format: https://[key]@your-domain.com/[project-id]
 // See GLITCHTIP-SETUP-GUIDE.md for setup instructions
-const GLITCHTIP_DSN = 'http://566f1a1ad6de4cb2918b713fad968e8e@192.168.1.100:8001/1';
+const GLITCHTIP_DSN = 'https://566f1a1ad6de4cb2918b713fad968e8e@glitchtip.mytepeapi.com.tr/1';
 
 // Check if GlitchTip is configured
 const isGlitchTipConfigured = GLITCHTIP_DSN !== 'YOUR_GLITCHTIP_DSN_HERE' &&
